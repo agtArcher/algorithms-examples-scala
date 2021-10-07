@@ -8,10 +8,17 @@ class QuickSortExample {
     } else {
       val pivot = list.head
       val tailList = list.tail
-      val lessList = tailList.filter(component => order.compare(component, pivot) <= 0)
-      val greaterList = tailList.filter(component => order.compare(component, pivot) > 0)
+      val lessList = filterViaLoop(tailList, (component: T) => order.compare(component, pivot) <= 0)
+      val greaterList = filterViaLoop(tailList, (component: T) => order.compare(component, pivot) > 0)
       quickSort(lessList) ++ List(pivot) ++ quickSort(greaterList)
     }
+  }
+
+  private def filterViaLoop[T](list: List[T], condition: T => Boolean): List[T] ={
+    for {
+      element <- list
+      if condition(element)
+    } yield element
   }
 
 }
