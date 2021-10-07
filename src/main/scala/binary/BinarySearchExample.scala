@@ -2,8 +2,8 @@ package binary
 
 class BinarySearchExample {
 
-  def binarySearch[T](list: List[T], item: T): Option[Int] = {
-    list.head.toString.compare(list.last.toString) match {
+  def binarySearch[T](list: List[T], item: T)(implicit ordering: Ordering[T]): Option[Int] = {
+    ordering.compare(list.head, list.last) match {
       case x if x < 0 =>
         binarySearchAsc(list, item)
       case x if x > 0 =>
@@ -13,13 +13,13 @@ class BinarySearchExample {
     }
   }
 
-  private def binarySearchAsc[T](list: List[T], item: T): Option[Int] = {
+  private def binarySearchAsc[T](list: List[T], item: T)(implicit ordering: Ordering[T]): Option[Int] = {
     var low = 0
     var high = list.size - 1
     while (low <= high) {
       val mid = Math.floor((low + high) / 2).toInt
       val guess = list(mid)
-      guess.toString.compare(item.toString) match {
+      ordering.compare(guess, item) match {
         case x if x > 0 =>
           high = mid - 1
         case x if x < 0 =>
@@ -31,13 +31,13 @@ class BinarySearchExample {
     None
   }
 
-  private def binarySearchDesc[T](list: List[T], item: T): Option[Int] = {
+  private def binarySearchDesc[T](list: List[T], item: T)(implicit ordering: Ordering[T]): Option[Int] = {
     var low = 0
     var high = list.size - 1
     while (low <= high) {
       val mid = Math.floor((low + high) / 2).toInt
       val guess = list(mid)
-      guess.toString.compare(item.toString) match {
+      ordering.compare(guess, item) match {
         case x if x > 0 =>
           low = mid + 1
         case x if x < 0 =>
