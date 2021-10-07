@@ -3,9 +3,13 @@ package binary
 class BinarySearchExample {
 
   def binarySearch[T](list: List[T], item: T): Option[Int] = {
-    binarySearchAsc(list, item) match {
-      case None => binarySearchDesc(list, item)
-      case value => value
+    list.head.toString.compare(list.last.toString) match {
+      case x if x < 0 =>
+        binarySearchAsc(list, item)
+      case x if x > 0 =>
+        binarySearchDesc(list, item)
+      case 0 =>
+        if (list.head == item) Some(0) else None
     }
   }
 
