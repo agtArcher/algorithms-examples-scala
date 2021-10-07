@@ -24,7 +24,9 @@ class BinarySearchRecExample {
       val mid = Math.floor((list.size - 1) / 2).toInt
       ordering.compare(list(mid), item) match {
         case x if x > 0 => binarySearchAscRec(list.slice(0, mid), item, startIndex)
-        case x if x < 0 => binarySearchAscRec(list.slice(mid, list.size), item, startIndex + mid)
+        case x if x < 0 =>
+          val nextLow = mid + 1
+          binarySearchAscRec(list.slice(nextLow, list.size), item, startIndex + nextLow)
         case 0 => Some(startIndex + mid)
       }
     }
@@ -39,7 +41,9 @@ class BinarySearchRecExample {
       val mid = Math.floor((list.size - 1) / 2).toInt
       ordering.compare(list(mid), item) match {
         case x if x < 0 => binarySearchDescRec(list.slice(0, mid), item, startIndex)
-        case x if x > 0 => binarySearchDescRec(list.slice(mid, list.size), item, startIndex + mid)
+        case x if x > 0 =>
+          val nextLow = mid + 1
+          binarySearchDescRec(list.slice(nextLow, list.size), item, startIndex + nextLow)
         case 0 => Some(startIndex + mid)
       }
     }
