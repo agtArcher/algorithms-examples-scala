@@ -17,13 +17,27 @@ class DijkstraAlgorithm {
     //set parents for start elements of the graph
     parents.addAll(graph("start").keys.map(_ -> "start"))
     //set 'No parent' for the remaining elements
-    parents.addAll(graph.filterNot(_._1 == "start").flatMap(_._2.keys.map(_ -> "No parent")))
+    graph.foreach {
+      case (_, values) => values.keys.map {
+        childNode => parents.updateWith(childNode) {
+          case Some(v) => Some(v)
+          case None => Some("No parent")
+        }
+      }
+    }
 
     val costs = mutable.Map[String, Int]()
     //set start cost for start elements of the graph.
     costs.addAll(graph("start"))
     //set infinite value for the remaining elements of the graph.
-    costs.addAll(graph.filterNot(_._1 == "start").flatMap(_._2.keys.map(_ -> Double.PositiveInfinity.toInt)))
+    graph.foreach {
+      case (_, values) => values.keys.map {
+        childNode => costs.updateWith(childNode) {
+          case Some(v) => Some(v)
+          case None => Some(Double.PositiveInfinity.toInt)
+        }
+      }
+    }
 
     var processed = Seq[String]()
 
